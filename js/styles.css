@@ -1,0 +1,114 @@
+       html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .matrix-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4vh;
+        }
+
+        @media (max-width: 600px) {
+            .matrix-row {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        canvas {
+            background: transparent;
+            display: block;
+            min-width: 25vh;
+            flex: 0 0 auto;
+        }
+
+        .containInput {
+            position: absolute;
+            bottom: 2vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2vh;
+        }
+
+        .input-area {
+            padding: 4vh;
+            text-align: center;
+        }
+
+        input {
+            font-size: 2.5vh;
+            padding: 1vh 2vh;
+            width: 40vh;
+            background: #000;
+            color: #00FFFF;
+            border: 1px solid #00FFFF;
+            outline: none;
+        }
+
+        button {
+            font-size: 2.2vh;
+            padding: 1vh 2vh;
+            margin-left: 2vh;
+            cursor: pointer;
+            background: #000;
+            color: #00FFFF;
+            border: 1px solid #00FFFF;
+        }
+
+        .palette {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1vh;
+        }
+
+        .color-swatch {
+            width: 3vh;
+            height: 3vh;
+            border-radius: 50%;
+            border: 2px solid #444;
+            cursor: pointer;
+        }
+
+        .color-swatch:hover {
+            border-color: #fff;
+        }
+
+        .color-swatch.selected {
+            border-color: #fff;
+            box-shadow: 0 0 1vh #00FFFF;
+        }
+
+        #flickerToggle.active {
+            border-color: #00FFFF;
+            box-shadow: 0 0 1vh #00FFFF;
+        }
+
+        .symbol-btn {
+            width: 3vh;
+            height: 3vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5vh;
+            border-radius: 50%;
+            background: #222;
+            color: #fff;
+            border: 2px solid #444;
+            cursor: pointer;
+        }
+
+        .symbol-btn:hover {
+            border-color: #00FFFF;
+            color: #00FFFF;
+        }

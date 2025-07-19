@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>交互式 LED 点阵</title>
+    <link rel="stylesheet" href="js/styles.css">
+    <style>
+        .ui-buttons {
+            position: fixed;
+            bottom: 3vh;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2vw;
+            z-index: 9;
+            pointer-events: auto;
+        }
+
+        .ui-buttons button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #00FFFF;
+            border: none;
+            padding: 1vh 2vh;
+            font-size: 1.5vh;
+            border-radius: 0.5vh;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .ui-buttons button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="matrix-row" id="matrixContainer"></div>
+
+    <div class="containInput">
+        <div class="palette">
+            <span class="color-swatch" data-color="#FF0000" style="background:#FF0000;"></span>
+            <span class="color-swatch" data-color="#FFA500" style="background:#FFA500;"></span>
+            <span class="color-swatch" data-color="#FFFF00" style="background:#FFFF00;"></span>
+            <span class="color-swatch" data-color="#00CC66" style="background:#00CC66;"></span>
+            <span class="color-swatch" data-color="#00BFFF" style="background:#00BFFF;"></span>
+            <span class="color-swatch" data-color="#00FFFF" style="background:#00FFFF;"></span>
+            <span class="color-swatch" data-color="#8A2BE2" style="background:#8A2BE2;"></span>
+            <span class="color-swatch" data-color="#FF69B4" style="background:#FF69B4;"></span>
+            <span class="color-swatch" data-color="#FFFFFF" style="background:#FFFFFF;"></span>
+            <span class="color-swatch" data-color="#FF8C00" style="background:#FF8C00;"></span>
+            <span id="flickerToggle" class="color-swatch" style="background:#000000;" title="闪烁开关"></span>
+            <button class="symbol-btn">⚠️</button>
+            <button class="symbol-btn">☢️</button>
+            <button class="symbol-btn">☣️</button>
+        </div>
+        <div class="ui-buttons">
+            <button id="about-button">aj300</button>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="textInput" placeholder="请输入文字">
+            <button onclick="enterFullscreen()">全屏显示</button>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll(".symbol-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const char = btn.textContent;
+                const input = document.getElementById("textInput");
+
+                input.value += char; // ✅ 追加符号
+                clockMode = false;
+                clearInterval(clockInterval);
+                window.MatrixRenderer.updateTexts(input.value.split(""));
+            });
+        });
+    </script>
+    <script>
+        window.cols = 16;
+        window.rows = 22;
+        window.ledColor = "#00FFFF";
+        window.flickerSpeed = 0.15;
+
+        let clockMode = true;
+        let clockInterval = null;
+        let flickerEnabled = true;
+
+        function updateClockText() {
+            const now = new Date();
+            const hh = String(now.getHours()).padStart(2, "0");
+            const mm = String(now.getMinutes()).padStart(2, "0");
+            const ss = String(now.getSeconds()).padStart(2, "0");
+            const timeStr = hh + mm + ss;
+
+            const input = document.getElementById("textInput");
+            input.value = timeStr;
+            window.MatrixRenderer.updateTexts(timeStr.split(""));
+        }
+
+        window.onload = () => {
+            updateClockText();
+            window.MatrixRenderer.init(document.getElementById("matrixContainer"));
+            clockInterval = setInterval(() => {
+                if (clockMode) updateClockText();
+            }, 1000);
+
+            document.querySelectorAll(".color-swatch").forEach(swatch => {
+                swatch.classList.remove("selected");
+                if (swatch.dataset.color === window.ledColor) {
+                    swatch.classList.add("selected");
+                }
+            });
+
+            const flickerToggle = document.getElementById("flickerToggle");
+            flickerToggle.classList.add("active");
+            flickerToggle.addEventListener("click", () => {
+                flickerEnabled = !flickerEnabled;
+                window.flickerSpeed = flickerEnabled ? 0.15 : 0;
+                flickerToggle.classList.toggle("active", flickerEnabled);
+
+                // ✅ 恢复默认颜色
+                window.ledColor = "#00FFFF";
+                window.MatrixRenderer.updateColor(window.ledColor);
+
+                // ✅ 强制刷新字符渲染
+                const currentText = document.getElementById("textInput").value;
+                window.MatrixRenderer.updateTexts(currentText.split(""));
+
+                // ✅ 更新调色板选中状态
+                document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+                document.querySelectorAll(".color-swatch").forEach(s => {
+                    if (s.dataset.color === "#00FFFF") {
+                        s.classList.add("selected");
+                    }
+                });
+            });
+
+        };
+
+        document.getElementById("textInput").addEventListener("input", (e) => {
+            clockMode = false;
+            clearInterval(clockInterval);
+            window.MatrixRenderer.updateTexts(e.target.value.split(""));
+        });
+
+        document.querySelectorAll(".color-swatch").forEach(swatch => {
+            swatch.addEventListener("click", () => {
+                window.ledColor = swatch.dataset.color;
+                window.MatrixRenderer.updateColor(window.ledColor);
+
+                document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+                swatch.classList.add("selected");
+
+                // ✅ 强制刷新字符渲染，确保颜色更新立即生效
+                const currentText = document.getElementById("textInput").value;
+                window.MatrixRenderer.updateTexts(currentText.split(""));
+            });
+        });
+
+        function enterFullscreen() {
+            const container = document.querySelector(".containInput");
+            container.style.display = "none";
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
+        }
+
+        document.addEventListener("fullscreenchange", () => {
+            const container = document.querySelector(".containInput");
+            if (!document.fullscreenElement) {
+                container.style.display = "flex";
+            }
+        });
+        document.getElementById("about-button").addEventListener("click", () => {
+            window.open("https://aj300542.github.io/", "_blank");
+        });
+    </script>
+
+    <script src="js/txt.js"></script>
+</body>
+
+</html>
