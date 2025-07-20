@@ -55,28 +55,24 @@
             <button class="symbol-btn">☢️</button>
             <button class="symbol-btn">☣️</button>
         </div>
+        <div id="countdownDisplay" style="color:#00FFFF; font-size:1.5vh;">下一句倒计时：--</div>
+
         <div class="ui-buttons">
-            <button id="about-button">aj300</button>
+            <div class="left-buttons">
+                <button id="about-button">aj300542</button>
+            </div>
+            <div class="right-buttons">
+                <button id="autoDemoBtn">自动演示</button>
+                <button id="interruptDemoBtn">中断演示</button>
+            </div>
         </div>
+
 
         <div class="input-area">
             <input type="text" id="textInput" placeholder="请输入文字">
             <button onclick="enterFullscreen()">全屏显示</button>
         </div>
     </div>
-    <script>
-        document.querySelectorAll(".symbol-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const char = btn.textContent;
-                const input = document.getElementById("textInput");
-
-                input.value += char; // ✅ 追加符号
-                clockMode = false;
-                clearInterval(clockInterval);
-                window.MatrixRenderer.updateTexts(input.value.split(""));
-            });
-        });
-    </script>
     <script>
         window.cols = 16;
         window.rows = 22;
@@ -177,7 +173,27 @@
             window.open("https://aj300542.github.io/", "_blank");
         });
     </script>
+    <script src="js/demoController.js"></script>
+    <script>
+        // 👇 你的初始化逻辑放这里
+        window.addEventListener("load", () => {
+            fetchTxtFile("js/texts.txt");
+            setTimeout(startAutoLoop, 5000);
 
+            updateClockText();
+            if (window.MatrixRenderer && typeof window.MatrixRenderer.init === "function") {
+                window.MatrixRenderer.init(document.getElementById("matrixContainer"));
+            } else {
+                console.error("MatrixRenderer 未定义或未正确加载");
+            }
+
+            clockInterval = setInterval(() => {
+                if (clockMode) updateClockText();
+            }, 1000);
+
+            // 其它初始化逻辑搬到这里
+        });
+    </script>
     <script src="js/txt.js"></script>
 </body>
 
