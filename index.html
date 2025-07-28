@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>交互式 LED 点阵</title>
+    <title>罗小黑 LED 点阵</title>
     <link rel="stylesheet" href="js/styles.css">
     <style>
         .ui-buttons {
@@ -32,15 +32,41 @@
         .ui-buttons button:hover {
             background-color: rgba(0, 0, 0, 0.8);
         }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+        }
+
+
+        .iframe-cat {
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            top: 0vh;
+            width: 50vh;
+            height: 50vh;
+            z-index: 9;
+            border: none;
+            background: transparent;
+            overflow: hidden;
+            transition: top 0.5s ease, left 0.5s ease, transform 0.3s ease;
+        }
     </style>
 </head>
 
 <body>
+    <div class="iframe-cat" id="iframeCat">
+        <iframe src="cat.html"></iframe>
+    </div>
+
     <div class="matrix-row" id="matrixContainer"></div>
 
     <div class="containInput">
         <div class="palette">
-            <span class="color-swatch" data-color="#FF0000" style="background:#FF0000;"></span>
+            <span class="color-swatch" data-color="#93df08" style="background:#93df08;"></span>
             <span class="color-swatch" data-color="#FFA500" style="background:#FFA500;"></span>
             <span class="color-swatch" data-color="#FFFF00" style="background:#FFFF00;"></span>
             <span class="color-swatch" data-color="#00CC66" style="background:#00CC66;"></span>
@@ -74,10 +100,49 @@
         </div>
     </div>
     <script>
+        let jumpInterval;
+
+        function jumpWithPause() {
+            const iframeCat = document.getElementById("iframeCat");
+
+            const maxX = window.innerWidth - iframeCat.offsetWidth;
+            const maxY = window.innerHeight - iframeCat.offsetHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            iframeCat.style.left = randomX + "px";
+            iframeCat.style.top = randomY + "px";
+            iframeCat.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+
+            const delay = Math.floor(Math.random() * 5000) + 1000; // 1~6秒之间
+
+            jumpInterval = setTimeout(jumpWithPause, delay);
+        }
+
+        // 绑定启动按钮
+        document.getElementById("autoDemoBtn").addEventListener("click", () => {
+            if (!jumpInterval) jumpWithPause();
+        });
+
+        // 🧹 绑定“中断演示”按钮来停止跳跃
+        document.getElementById("interruptDemoBtn").addEventListener("click", () => {
+            clearTimeout(jumpInterval);
+            jumpInterval = null;
+
+            const iframeCat = document.getElementById("iframeCat");
+            iframeCat.style.left = "50%";
+            iframeCat.style.top = "25%";
+            iframeCat.style.transform = "rotate(0deg) translate(-50%, -50%)";
+        });
+
+
+    </script>
+    <script>
         window.cols = 16;
         window.rows = 22;
         window.ledColor = "#00FFFF";
-        window.flickerSpeed = 0.15;
+        window.flickerSpeed = 0.25;
 
         let clockMode = true;
         let clockInterval = null;

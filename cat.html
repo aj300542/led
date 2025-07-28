@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>cat</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .labubu {
+            position: absolute;
+            width: 55vh;
+            height: 45vh;
+            background: radial-gradient(circle at 40% 30%,
+                    #0f0f0fd2,
+                    #0e0e0e,
+                    #000000);
+
+
+            border: o.5vh solid rgb(0, 0, 0);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 1vh #222,
+                /* 模拟二层轮廓 */
+                inset 0.5vh 2vh 0 rgba(0, 0, 0, 0.25),
+                inset -1.5vh -2.5vh 0 rgba(0, 0, 0, 0.25);
+            animation: head-wiggle 4s infinite;
+            animation-timing-function: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+            z-index: 1;
+        }
+
+        @keyframes head-wiggle {
+            0% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+
+            100% {
+                transform: rotate(-5deg);
+            }
+        }
+
+        .labubub {
+            position: absolute;
+            width: 55vh;
+            height: 45vh;
+            background: radial-gradient(circle at 40% 30%,
+                    #0f0f0fd2,
+                    #0e0e0e,
+                    #000000);
+
+
+            border: o.5vh solid rgb(0, 0, 0);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 1vh #222,
+                /* 模拟二层轮廓 */
+                inset 0.5vh 2vh 0 rgba(0, 0, 0, 0.25),
+                inset -1.5vh -2.5vh 0 rgba(0, 0, 0, 0.25);
+            animation: head-wiggle 15s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .blush {
+            position: absolute;
+            width: 12vh;
+            height: 12vh;
+            top: 50%;
+            background: radial-gradient(circle, rgba(255, 128, 128, 0.4), transparent 70%);
+            border-radius: 50%;
+            z-index: 2;
+            opacity: 0.85;
+        }
+
+        .blush-left {
+            left: -5%;
+        }
+
+        .blush-right {
+            right: -5%;
+        }
+
+        .eyebrow {
+            position: absolute;
+            width: 8vh;
+            height: 5vh;
+            top: 2vh;
+            background: linear-gradient(to bottom,
+                    #000000 0%,
+                    #131313 50%,
+                    #161616 75%,
+                    #000000 100%);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .eyebrow.left {
+            left: 10vh;
+            animation: brow-wiggle 5s ease-in-out infinite;
+        }
+
+        .eyebrow.right {
+            right: 10vh;
+            /* transform: rotate(5deg);*/
+            animation: brow-wiggle2 5s ease-in-out infinite;
+        }
+
+        @keyframes brow-wiggle {
+            0% {
+                transform: rotate(-15deg);
+            }
+
+            50% {
+                transform: rotate(15deg);
+            }
+
+            100% {
+                transform: rotate(-15deg);
+            }
+        }
+
+        @keyframes brow-wiggle2 {
+            0% {
+                transform: rotate(15deg);
+            }
+
+            50% {
+                transform: rotate(-15deg);
+            }
+
+            100% {
+                transform: rotate(15deg);
+            }
+        }
+
+        .nose {
+            position: absolute;
+            top: 25.5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4vh;
+            height: 3vh;
+            background: linear-gradient(to bottom,
+                    #161616 0%,
+                    /* 原 #ddc2ba 提亮＋偏粉 */
+                    #141414 60%,
+                    /* 原 #c99591 → 草莓牛奶调 */
+                    #000000 100%
+                    /* 原 #8b5e4e → 枣红/干玫瑰 */
+                );
+
+            clip-path: polygon(0% 30%,
+                    20% 0%,
+                    80% 0%,
+                    100% 30%,
+                    72% 72%,
+                    50% 95%,
+                    /* 原本是 100% 改成 95% */
+                    28% 72%);
+
+            box-shadow: inset 0 -0.3vh 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .nose::before {
+            content: "";
+            position: absolute;
+            top: 0.5vh;
+            left: 0.8vh;
+            width: 1.2vh;
+            height: 0.8vh;
+            background: radial-gradient(circle, rgba(41, 41, 41, 0.8), rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+
+
+        .ear,
+        .earw {
+            position: absolute;
+            border-radius: 25% 25% 0 0;
+            box-shadow: inset 0.4vh 0.4vh 0.6vh rgba(255, 255, 255, 0.2);
+            border: 0.25vh solid rgba(0, 0, 0, 0.3);
+        }
+
+        .ear {
+            width: 25vh;
+            height: 20vh;
+            top: -2vh;
+            background: radial-gradient(circle at 40% 30%,
+                    #141414,
+                    #202020,
+                    #000000);
+            z-index: -4;
+        }
+
+        .left-ear {
+            animation: ear-wiggle 10s ease-in-out infinite;
+            left: 0vh;
+
+        }
+
+        .right-ear {
+            right: 0vh;
+            animation: ear-wiggle2 10s ease-in-out infinite;
+        }
+
+        @keyframes ear-wiggle {
+            0% {
+                transform: rotate(-10deg);
+            }
+
+            50% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-10eg);
+            }
+        }
+
+        @keyframes ear-wiggle2 {
+            0% {
+                transform: rotate(10deg);
+            }
+
+            50% {
+                transform: rotate(-0deg);
+            }
+
+            100% {
+                transform: rotate(10deg);
+            }
+        }
+
+        .earw {
+            width: 23vh;
+            height: 20vh;
+            background: #93df08;
+            left: 50%;
+            transform: translateX(-50%);
+
+        }
+
+
+
+        .left-earw,
+        .right-earw {
+            top: 1vh;
+        }
+
+        .left-earw {
+            clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+        }
+
+        .right-earw {
+            clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+        }
+
+
+        .eye {
+            position: absolute;
+            top: 6vh;
+            width: 23vh;
+            height: 25vh;
+            background: white;
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 0.25vh rgb(240, 240, 240),
+                0 0 0 0.25vh #aaaaaa,
+                /* 模拟二层轮廓 */
+                inset -0.5vh -1.5vh 0 rgb(116, 116, 116, 0.1),
+                inset 0.5vh 1.5vh 0 rgb(116, 116, 116, 0.1);
+
+        }
+
+        .eye.left {
+            left: 2vh;
+        }
+
+        .eye.right {
+            right: 2vh;
+            animation: openClosea 7s infinite;
+            transform-origin: center;
+        }
+
+        @keyframes openClosea {
+            0% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+
+            89% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+
+            90% {
+                transform: scaleY(0.01) scaleX(0.75);
+                visibility: visible;
+            }
+
+            100% {
+                transform: scaleY(0.01) scaleX(0.75);
+                visibility: hidden;
+            }
+        }
+
+        .pupil {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 17vh;
+            height: 19vh;
+            background: black;
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 0.8vh rgb(65, 65, 65),
+                0 0 0 0.5vh #000000,
+                /* 模拟二层轮廓 */
+                inset 1.5vh 2vh 0 rgb(116, 116, 116);
+        }
+
+        .pupilw {
+            position: absolute;
+            top: 2vh;
+            right: -15%;
+            transform: translate(-50%);
+            width: 8vh;
+            height: 8vh;
+            background: white;
+            border-radius: 50%;
+            border: 0.5vh solid black;
+        }
+
+        .pupily {
+            position: absolute;
+            bottom: 2vh;
+            right: 20%;
+            transform: translate(-50%);
+            width: 3vh;
+            height: 3vh;
+            background: rgb(255, 247, 139);
+            border-radius: 50%;
+            border: 0.5vh solid black;
+        }
+
+        .mouth {
+            position: absolute;
+            bottom: 4vh;
+            left: 45%;
+            transform: translateX(-50%);
+            width: 8vh;
+            height: 8vh;
+            border-radius: 0 0 50% 50%;
+            z-index: 9;
+            background: rgb(92, 166, 168);
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+            animation: openClose 3s infinite steps(1, start);
+            transform-origin: center top;
+
+        }
+
+        @keyframes openClose {
+            0% {
+                transform: scaleY(0.05);
+            }
+
+            50% {
+                transform: scaleY(1);
+                visibility: visible;
+            }
+
+            100% {
+                transform: scaleY(0.05);
+            }
+        }
+
+
+        .mm {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: -3.5vh;
+        }
+
+        .mouthin {
+            position: relative;
+            width: 40vh;
+            height: 40vh;
+            border-radius: 50%;
+            transform: scaleY(0.5);
+
+        }
+
+        .tooth {
+            position: absolute;
+            width: 8vh;
+            height: 8vh;
+            background: white;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: center bottom;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="labubu">
+        <div class="labubub"></div>
+        <div class="blush blush-left"></div>
+        <div class="blush blush-right"></div>
+        <div class="eyebrow left"></div>
+        <div class="eyebrow right"></div>
+        <div class="ear left-ear">
+            <div class="earw left-earw"></div>
+        </div>
+        <div class="ear right-ear">
+            <div class="earw right-earw"></div>
+        </div>
+
+
+        <div class="eye left">
+            <div class="pupil">
+                <div class="pupilw"></div>
+                <div class="pupily"></div>
+            </div>
+        </div>
+        <div class="eye right">
+            <div class="pupil">
+                <div class="pupilw"></div>
+                <div class="pupily"></div>
+            </div>
+        </div>
+        <div class="nose"></div>
+        <div class="mouth">
+            <div class="mm">
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
