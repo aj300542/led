@@ -54,6 +54,18 @@
             overflow: hidden;
             transition: top 0.5s ease, left 0.5s ease, transform 0.3s ease;
         }
+
+        #hourtext {
+            display: none;
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6vh;
+            color: #00FFFF;
+            z-index: 9999;
+            text-shadow: 0 0 10px #000;
+        }
     </style>
 </head>
 
@@ -63,7 +75,8 @@
     </div>
 
     <div class="matrix-row" id="matrixContainer"></div>
-
+    <!-- 在 matrixContainer 下面添加 -->
+    <div id="hourTextDisplay"> </div>
     <div class="containInput">
         <div class="palette">
             <span class="color-swatch" data-color="#93df08" style="background:#93df08;"></span>
@@ -243,7 +256,7 @@
         // 👇 你的初始化逻辑放这里
         window.addEventListener("load", () => {
             fetchTxtFile("js/texts.txt");
-            setTimeout(startAutoLoop, 5000);
+            //setTimeout(startAutoLoop, 5000);
 
             updateClockText();
             if (window.MatrixRenderer && typeof window.MatrixRenderer.init === "function") {
@@ -258,6 +271,46 @@
 
             // 其它初始化逻辑搬到这里
         });
+    </script>
+    <script>
+        function updateClockText() {
+            const now = new Date();
+            const hh = String(now.getHours()).padStart(2, "0");
+            const mm = String(now.getMinutes()).padStart(2, "0");
+            const ss = String(now.getSeconds()).padStart(2, "0");
+            const timeStr = hh + mm + ss;
+
+            const input = document.getElementById("textInput");
+
+            // 整点触发自动演示
+            if (mm === "00" && ss === "00") {
+                clockMode = false;
+                clearInterval(clockInterval);
+
+                // 显示“X点整”到新元素
+                const hourText = parseInt(hh, 10) + "点整";
+                const hourTextDiv = document.getElementById("hourTextDisplay");
+                hourTextDiv.textContent = hourText;
+                hourTextDiv.style.display = "block";
+
+                document.getElementById("autoDemoBtn").click();
+
+                // 5秒后恢复时钟并隐藏
+                setTimeout(() => {
+                    hourTextDiv.style.display = "none";
+                    clockMode = true;
+                    updateClockText();
+                    clockInterval = setInterval(() => {
+                        if (clockMode) updateClockText();
+                    }, 1000);
+                    document.getElementById("interruptDemoBtn").click();
+                }, 5000);
+            } else {
+                // 正常时钟
+                input.value = timeStr;
+                window.MatrixRenderer.updateTexts(timeStr.split(""));
+            }
+        }
     </script>
     <script src="js/txt.js"></script>
 </body>

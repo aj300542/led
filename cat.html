@@ -398,33 +398,25 @@
         }
 
 
-        .mm {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            top: -3.5vh;
-        }
-
-        .mouthin {
-            position: relative;
-            width: 40vh;
-            height: 40vh;
-            border-radius: 50%;
-            transform: scaleY(0.5);
-
-        }
-
         .tooth {
             position: absolute;
-            width: 8vh;
-            height: 8vh;
+            width: 1vh;
+            height: 1vh;
             background: white;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
             transform-origin: center bottom;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            /* 增加可见性 */
+        }
 
+        .tooth.left {
+            left: 5%;
+            top: 0;
+        }
+
+        .tooth.right {
+            right: 5%;
+            top: 0;
         }
     </style>
 </head>
@@ -458,10 +450,10 @@
         </div>
         <div class="nose"></div>
         <div class="mouth">
-            <div class="mm">
-
-            </div>
+            <div class="tooth left"></div>
+            <div class="tooth right"></div>
         </div>
+    </div>
 
     </div>
 
