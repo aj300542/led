@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'huiwenNumber';
+    src: url('../font/huiwenNumber.ttf') format('truetype');
+    /* 回到 font 文件夹 */
+    font-display: swap;
+}
+
 html,
 body {
     margin: 0;
@@ -7,6 +14,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0%;
+    font-family: 'huiwenNumber', 'Segoe UI', sans-serif;
 }
 
 .matrix-row {
@@ -82,6 +93,7 @@ input {
     color: #00FFFF;
     border: 1px solid #00FFFF;
     outline: none;
+    font-family: 'huiwenNumber', 'Segoe UI', sans-serif;
 }
 
 button {
