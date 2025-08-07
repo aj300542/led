@@ -64,7 +64,7 @@ window.MatrixRenderer = {
   },
 
   render() {
-    this.tick += 0.15;
+    this.tick += 0.05;
     const flickerAmount = window.flickerSpeed || 0;
 
     this.canvases.forEach((obj, groupIndex) => {
@@ -83,7 +83,7 @@ window.MatrixRenderer = {
         textCanvas.width = cellSize * cols;
         textCanvas.height = cellSize * rows;
         const textCtx = textCanvas.getContext("2d");
-        textCtx.font = `bold ${textCanvas.height * 0.65}px 'Microsoft YaHei', 'Noto Sans SC', 'PingFang SC', 'SimHei', sans-serif`;
+        textCtx.font = `bold ${textCanvas.height * 0.65}px 'Microsoft YaHei','SegoeEmojiOld','Noto Sans SC',  'SimHei', sans-serif`;
         textCtx.textAlign = "center";
         textCtx.textBaseline = "middle";
         textCtx.fillStyle = "white";
