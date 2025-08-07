@@ -81,6 +81,7 @@ canvas {
 .input-area {
     padding: 4vh;
     text-align: center;
+    z-index: 99;
 }
 
 input {
@@ -149,4 +150,5 @@ button {
 .symbol-btn:hover {
     border-color: #00FFFF;
     color: #00FFFF;
+
 }
