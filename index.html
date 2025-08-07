@@ -46,8 +46,24 @@
             justify-content: center;
             align-items: center;
             top: 0vh;
+            left: 34%;
             width: 50vh;
             height: 50vh;
+            z-index: 9;
+            border: none;
+            background: transparent;
+            overflow: hidden;
+            transition: top 0.5s ease, left 0.5s ease, transform 0.3s ease;
+        }
+
+        .iframe-infinite {
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            top: -5vh;
+            left: 50%;
+            width: 55vh;
+            height: 55vh;
             z-index: 9;
             border: none;
             background: transparent;
@@ -66,6 +82,22 @@
             z-index: 9999;
             text-shadow: 0 0 10px #000;
         }
+
+        #iframeContainer {
+            position: absolute;
+            width: 1600px;
+            height: 800px;
+            transform-origin: top left;
+            z-index: 88;
+        }
+
+        #iframeIN {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transition: opacity 0.3s ease, transform 0.6s ease;
+
+        }
     </style>
 </head>
 
@@ -73,7 +105,9 @@
     <div class="iframe-cat" id="iframeCat">
         <iframe src="cat.html"></iframe>
     </div>
-
+    <div id="iframeContainer">
+        <iframe id="iframeIN" src="wuxianhead.html" frameborder="0"></iframe>
+    </div>
     <div class="matrix-row" id="matrixContainer"></div>
     <!-- 在 matrixContainer 下面添加 -->
     <div id="hourTextDisplay"> </div>
@@ -112,6 +146,27 @@
             <button onclick="enterFullscreen()">全屏显示</button>
         </div>
     </div>
+    <script>
+        window.addEventListener("message", (event) => {
+            if (event.data.type === "labubuPosition") {
+                const container = document.getElementById("iframeContainer");
+
+                const rect = container.getBoundingClientRect();
+                const padding = 20;
+
+                const maxX = window.innerWidth - rect.width - padding;
+                const maxY = window.innerHeight - rect.height - padding;
+
+                const x = Math.min(Math.max(event.data.x - rect.width / 2, padding), maxX);
+                const y = Math.min(Math.max(event.data.y - rect.height / 2, padding), maxY);
+
+                container.style.left = `${x}px`;
+                container.style.top = `${y}px`;
+                container.style.transform = `translate(0px, 0px)`; // 清除 transform
+            }
+        });
+    </script>
+
     <script>
         let jumpInterval;
 
