@@ -146,6 +146,9 @@
         <div class="input-area">
             <input type="text" id="textInput" placeholder="请输入文字">
             <button onclick="enterFullscreen()">全屏显示</button>
+            <!-- 新增的两个控制按钮 -->
+            <button onclick="toggleCat()">显示/隐藏猫</button>
+            <button onclick="toggleWuxian()">显示/隐藏无限</button>
         </div>
     </div>
     <script>
@@ -369,6 +372,28 @@
             }
         }
     </script>
+    
+    <!-- 新增的控制函数 -->
+    <script>
+        function toggleCat() {
+            const catFrame = document.getElementById("iframeCat");
+            if (catFrame.style.display === "none") {
+                catFrame.style.display = "flex";
+            } else {
+                catFrame.style.display = "none";
+            }
+        }
+
+        function toggleWuxian() {
+            const wuxianFrame = document.getElementById("iframeContainer");
+            if (wuxianFrame.style.display === "none") {
+                wuxianFrame.style.display = "block";
+            } else {
+                wuxianFrame.style.display = "none";
+            }
+        }
+    </script>
+    
     <script src="js/txt.js"></script>
 </body>
 
